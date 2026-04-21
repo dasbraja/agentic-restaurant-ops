@@ -1,0 +1,56 @@
+<svg width="100%" viewBox="0 0 680 400" xmlns="http://www.w3.org/2000/svg" role="img">
+  <title>What changes vs what stays the same across domains</title>
+  <defs>
+    <marker id="ar3" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M2 1L8 5L2 9" fill="none" stroke="#8c959f" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+    </marker>
+  </defs>
+  <!-- headers -->
+  <rect x="40" y="30" width="270" height="36" rx="8" fill="#fdf0eb" stroke="#993c1d" stroke-width="0.5"/>
+  <text font-family="sans-serif" font-size="13" font-weight="600" fill="#1f2328" x="175" y="48" text-anchor="middle" dominant-baseline="central">replace for each domain</text>
+  <rect x="370" y="30" width="270" height="36" rx="8" fill="#e6f4f1" stroke="#0f6e56" stroke-width="0.5"/>
+  <text font-family="sans-serif" font-size="13" font-weight="600" fill="#1f2328" x="505" y="48" text-anchor="middle" dominant-baseline="central">identical across all domains</text>
+  <!-- left column -->
+  <rect x="40" y="84" width="270" height="52" rx="6" fill="#f6f8fa" stroke="#d0d7de" stroke-width="0.5"/>
+  <text font-family="sans-serif" font-size="13" font-weight="600" fill="#1f2328" x="175" y="104" text-anchor="middle" dominant-baseline="central">agents_config.json</text>
+  <text font-family="sans-serif" font-size="11" font-weight="400" fill="#57606a" x="175" y="122" text-anchor="middle" dominant-baseline="central">agent names, instructions, tools, model</text>
+  <rect x="40" y="148" width="270" height="52" rx="6" fill="#f6f8fa" stroke="#d0d7de" stroke-width="0.5"/>
+  <text font-family="sans-serif" font-size="13" font-weight="600" fill="#1f2328" x="175" y="168" text-anchor="middle" dominant-baseline="central">tools/*.py</text>
+  <text font-family="sans-serif" font-size="11" font-weight="400" fill="#57606a" x="175" y="186" text-anchor="middle" dominant-baseline="central">your API clients and business logic</text>
+  <rect x="40" y="212" width="270" height="52" rx="6" fill="#f6f8fa" stroke="#d0d7de" stroke-width="0.5"/>
+  <text font-family="sans-serif" font-size="13" font-weight="600" fill="#1f2328" x="175" y="232" text-anchor="middle" dominant-baseline="central">TOOL_REGISTRY</text>
+  <text font-family="sans-serif" font-size="11" font-weight="400" fill="#57606a" x="175" y="250" text-anchor="middle" dominant-baseline="central">map tool names to callables</text>
+  <rect x="40" y="276" width="270" height="52" rx="6" fill="#f6f8fa" stroke="#d0d7de" stroke-width="0.5"/>
+  <text font-family="sans-serif" font-size="13" font-weight="600" fill="#1f2328" x="175" y="296" text-anchor="middle" dominant-baseline="central">SCHEMA_DESCRIPTION</text>
+  <text font-family="sans-serif" font-size="11" font-weight="400" fill="#57606a" x="175" y="314" text-anchor="middle" dominant-baseline="central">your data schema for NL query engine</text>
+  <!-- right column -->
+  <rect x="370" y="84" width="270" height="52" rx="6" fill="#f6f8fa" stroke="#d0d7de" stroke-width="0.5"/>
+  <text font-family="sans-serif" font-size="13" font-weight="600" fill="#1f2328" x="505" y="104" text-anchor="middle" dominant-baseline="central">main.py</text>
+  <text font-family="sans-serif" font-size="11" font-weight="400" fill="#57606a" x="505" y="122" text-anchor="middle" dominant-baseline="central">FastAPI, session lifecycle, memory, audit</text>
+  <rect x="370" y="148" width="270" height="52" rx="6" fill="#f6f8fa" stroke="#d0d7de" stroke-width="0.5"/>
+  <text font-family="sans-serif" font-size="13" font-weight="600" fill="#1f2328" x="505" y="168" text-anchor="middle" dominant-baseline="central">agents.py factory</text>
+  <text font-family="sans-serif" font-size="11" font-weight="400" fill="#57606a" x="505" y="186" text-anchor="middle" dominant-baseline="central">two-pass wiring, root agent resolution</text>
+  <rect x="370" y="212" width="270" height="52" rx="6" fill="#f6f8fa" stroke="#d0d7de" stroke-width="0.5"/>
+  <text font-family="sans-serif" font-size="13" font-weight="600" fill="#1f2328" x="505" y="232" text-anchor="middle" dominant-baseline="central">React + MUI chat UI</text>
+  <text font-family="sans-serif" font-size="11" font-weight="400" fill="#57606a" x="505" y="250" text-anchor="middle" dominant-baseline="central">App.jsx, theme.js, session badge</text>
+  <rect x="370" y="276" width="270" height="52" rx="6" fill="#f6f8fa" stroke="#d0d7de" stroke-width="0.5"/>
+  <text font-family="sans-serif" font-size="13" font-weight="600" fill="#1f2328" x="505" y="296" text-anchor="middle" dominant-baseline="central">db.py + memory arch.</text>
+  <text font-family="sans-serif" font-size="11" font-weight="400" fill="#57606a" x="505" y="314" text-anchor="middle" dominant-baseline="central">sanitiser, user_contexts, audit log</text>
+  <!-- divider -->
+  <line x1="340" y1="30" x2="340" y2="340" stroke="#d0d7de" stroke-width="0.5" stroke-dasharray="4 3"/>
+  <!-- domain pills -->
+  <rect x="40" y="350" width="600" height="32" rx="8" fill="none" stroke="#d0d7de" stroke-width="0.5" stroke-dasharray="3 3"/>
+  <rect x="108" y="358" width="84" height="16" rx="4" fill="#f0eef8" stroke="#8c7ae6" stroke-width="0.5"/>
+  <text font-family="sans-serif" font-size="11" font-weight="400" fill="#57606a" x="150" y="366" text-anchor="middle" dominant-baseline="central">restaurant</text>
+  <rect x="202" y="358" width="74" height="16" rx="4" fill="#f0eef8" stroke="#8c7ae6" stroke-width="0.5"/>
+  <text font-family="sans-serif" font-size="11" font-weight="400" fill="#57606a" x="239" y="366" text-anchor="middle" dominant-baseline="central">IT helpdesk</text>
+  <rect x="286" y="358" width="82" height="16" rx="4" fill="#f0eef8" stroke="#8c7ae6" stroke-width="0.5"/>
+  <text font-family="sans-serif" font-size="11" font-weight="400" fill="#57606a" x="327" y="366" text-anchor="middle" dominant-baseline="central">supply chain</text>
+  <rect x="378" y="358" width="100" height="16" rx="4" fill="#f0eef8" stroke="#8c7ae6" stroke-width="0.5"/>
+  <text font-family="sans-serif" font-size="11" font-weight="400" fill="#57606a" x="428" y="366" text-anchor="middle" dominant-baseline="central">customer support</text>
+  <rect x="488" y="358" width="108" height="16" rx="4" fill="#f0eef8" stroke="#8c7ae6" stroke-width="0.5"/>
+  <text font-family="sans-serif" font-size="11" font-weight="400" fill="#57606a" x="542" y="366" text-anchor="middle" dominant-baseline="central">financial analysis</text>
+  <!-- swap label -->
+  <path d="M175 328 L175 344 L340 344 L340 350" fill="none" stroke="#993c1d" stroke-width="0.5" stroke-dasharray="3 3" marker-end="url(#ar3)"/>
+  <text font-family="sans-serif" font-size="11" font-weight="400" fill="#57606a" x="260" y="341" text-anchor="middle" dominant-baseline="central" opacity="0.7">swap config, new domain</text>
+</svg>
