@@ -7,6 +7,7 @@ A multi-agent restaurant operations system built on [Google ADK](https://google.
 ## Architecture
 
 ### System overview
+Here is high level System Architecture.
 
 <!-- Diagram 1: Full stack -->
 <p align="center">
