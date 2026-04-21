@@ -1,0 +1,20 @@
+# Core ADK + Gemini
+google-adk[gemini]>=1.0.0
+
+# Firestore — data store and vector search
+google-cloud-firestore>=2.16.0
+
+# API framework
+fastapi>=0.110.0
+uvicorn[standard]>=0.29.0
+
+# Session persistence (DatabaseSessionService)
+sqlalchemy>=2.0.0
+greenlet>=3.0.0
+
+# Async DB drivers — aiosqlite for local dev, asyncpg for Postgres in production
+aiosqlite>=0.20.0
+asyncpg>=0.29.0
+
+# Environment config
+python-dotenv>=1.0.0
