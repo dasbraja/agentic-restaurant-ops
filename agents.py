@@ -76,15 +76,45 @@ def _resolve_tools(names: list[str]) -> list[Any]:
     return resolved
 
 
+def _build_order(agent_defs: list[dict]) -> list[dict]:
+    """Return agent defs sorted so every agent's sub_agents are built before it.
+
+    ADK registers the internal 'transfer_to_agent' tool during LlmAgent.__init__
+    only when sub_agents instances are passed at construction time. Building in
+    dependency order lets us pass fully-constructed sub_agent instances directly
+    to the parent constructor — no post-hoc assignment needed.
+    """
+    index = {d["name"]: d for d in agent_defs}
+    ordered: list[dict] = []
+    visited: set[str] = set()
+
+    def visit(name: str) -> None:
+        if name in visited:
+            return
+        visited.add(name)
+        for sub in index[name].get("sub_agents", []):
+            visit(sub)
+        ordered.append(index[name])
+
+    for defn in agent_defs:
+        visit(defn["name"])
+
+    return ordered
+
+
 def build_agents(
     config_path: Path = _CONFIG_PATH,
     model_override: str | None = None,
 ) -> LlmAgent:
     """Read agents_config.json and return the root LlmAgent.
 
+    Agents are built in dependency order (leaves first, parents last) so that
+    sub_agents can be passed to LlmAgent() at construction time. This ensures
+    ADK registers the internal 'transfer_to_agent' tool correctly — assigning
+    sub_agents after construction does NOT trigger that registration.
+
     Args:
-        config_path:    Path to the JSON config file. Defaults to
-                        agents_config.json next to this file.
+        config_path:    Path to the JSON config file.
         model_override: Override the model for all agents (useful for testing).
 
     Returns:
@@ -95,34 +125,35 @@ def build_agents(
 
     default_model = model_override or config.get("default_model") or ADK_MODEL
 
-    # Pass 1 — build all leaf agents (no sub_agents yet)
+    # Build in dependency order — leaves first, root last
     built: dict[str, LlmAgent] = {}
-    agent_defs = config["agents"]
+    root: LlmAgent | None = None
 
-    for defn in agent_defs:
-        name = defn["name"]
+    for defn in _build_order(config["agents"]):
+        name  = defn["name"]
         model = defn.get("model") or default_model
+
+        # Resolve sub_agent instances (already built since we visit leaves first)
+        sub_agent_instances = [built[n] for n in defn.get("sub_agents", [])]
+
         built[name] = LlmAgent(
             name=name,
             model=model,
             description=defn["description"],
             instruction=defn["instruction"],
             tools=_resolve_tools(defn.get("tools", [])),
-            # sub_agents wired in pass 2
+            sub_agents=sub_agent_instances,   # passed at construction — registers transfer_to_agent
         )
-        log.debug("Built agent: %s (model=%s, tools=%s)",
-                  name, model, defn.get("tools", []))
 
-    # Pass 2 — wire sub_agents now that all instances exist
-    root: LlmAgent | None = None
-    for defn in agent_defs:
-        sub_names = defn.get("sub_agents", [])
-        if sub_names:
-            agent = built[defn["name"]]
-            agent.sub_agents = [built[n] for n in sub_names]
-            log.debug("Wired sub_agents for %s: %s", defn["name"], sub_names)
+        log.debug(
+            "Built agent: %s  model=%s  tools=%s  sub_agents=%s",
+            name, model,
+            defn.get("tools", []),
+            [n for n in defn.get("sub_agents", [])],
+        )
+
         if defn.get("is_root"):
-            root = built[defn["name"]]
+            root = built[name]
 
     if root is None:
         raise ValueError(
@@ -131,10 +162,8 @@ def build_agents(
         )
 
     log.info(
-        "Agent hierarchy built from %s — root: %s, total agents: %d",
-        config_path.name,
-        root.name,
-        len(built),
+        "Agent hierarchy built from %s — root: %s  total agents: %d",
+        config_path.name, root.name, len(built),
     )
     return root
 
